@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Dashboard de Gestión de Carga</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/gerente.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+
+<body>
+    <div id="exportable-dashboard">
+
+        <!-- Header -->
+        <header class="main-header">
+            <div class="header-left">
+                <h1><i class="fa-solid fa-warehouse"></i> Dashboard de Gestión de Carga</h1>
+                <h2>Trupper - Área de Andenes</h2>
+            </div>
+            <div class="header-right">
+                <select id="turno" class="turno-select">
+                    <option value="general">General</option>
+                    <option value="1ro">1ro</option>
+                    <option value="2do">2do</option>
+                    <option value="4to_inicio">4to inicio</option>
+                    <option value="4to_fin">4to fin</option>
+                </select>
+                <button id="btn-actualizar" class="btn-actualizar"><i class="fa-solid fa-rotate-right"></i>
+                    Actualizar</button>
+                <button id="btn-exportar" class="btn-exportar"><i class="fa-solid fa-file-pdf"></i> Exportar
+                    PDF</button>
+                <button class="btn-salir" id="btnLogout">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i> Cerrar sesión
+                </button>
+            </div>
+        </header>
+
+        <!-- Métricas rápidas -->
+        <section class="resumen-metricas">
+            <div class="tarjeta-metrica">
+                <i class="fa-solid fa-warehouse"></i>
+                <div>
+                    <h4>Total Andenes</h4>
+                    <p id="metrica-total">—</p>
+                </div>
+            </div>
+            <div class="tarjeta-metrica disponible">
+                <i class="fa-solid fa-circle-check"></i>
+                <div>
+                    <h4>Disponibles</h4>
+                    <p id="metrica-disponibles">—</p>
+                </div>
+            </div>
+            <div class="tarjeta-metrica ocupado">
+                <i class="fa-solid fa-truck-ramp-box"></i>
+                <div>
+                    <h4>Ocupados</h4>
+                    <p id="metrica-ocupados">—</p>
+                </div>
+            </div>
+            <div class="tarjeta-metrica fuera">
+                <i class="fa-solid fa-circle-xmark"></i>
+                <div>
+                    <h4>Fuera de servicio</h4>
+                    <p id="metrica-fuera">—</p>
+                </div>
+            </div>
+            <div class="tarjeta-metrica alerta">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <div>
+                    <h4>Tiempo excedido</h4>
+                    <p id="metrica-alerta">—</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tabs -->
+        <section class="tabs-nav">
+            <button class="tab-btn active">Vista General</button>
+            <button class="tab-btn">Análisis</button>
+            <button class="tab-btn">Historial</button>
+        </section>
+
+        <!-- Vista General -->
+        <section id="vista-general" class="tab-section active">
+            <section class="mapa">
+                <h3>Mapa de Andenes de Carga</h3>
+                <div id="naves-container"></div>
+            </section>
+
+            <section class="eventos-recientes">
+                <h3>Eventos Recientes por checar</h3>
+                <div id="eventos-container"></div>
+            </section>
+        </section>
+
+        <!-- Análisis -->
+        <section id="analisis" class="tab-section">
+            <h3>Ocupación de Andenes por Hora</h3>
+            <p>Últimas 24 horas</p>
+            <div class="grafica-container">
+                <canvas id="grafica-ocupacion"></canvas>
+            </div>
+            <div class="graficas-dobles">
+                <div class="grafica-box">
+                    <h4>Vehículos Atendidos por Tipo</h4>
+                    <p>Hoy</p>
+                    <canvas id="grafica-tipos"></canvas>
+                </div>
+                <div class="grafica-box grafica-pastel">
+                    <h4>Distribución de Tiempo</h4>
+                    <p>Hoy</p>
+                    <canvas id="grafica-eficiencia"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Historial -->
+        <section id="historial" class="tab-section">
+            <h3>Historial General de Ordenes</h3>
+            <div class="tabla-historial">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Fecha</th>
+                            <th>Mensaje</th>
+                            <th>Vehículo</th>
+                            <th>Excedido</th>
+                            <th>Usuario</th>
+                            <th>Severidad</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-historial"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="{{ url_for('static', filename='js/gerente.js') }}"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    </div>
+</body>
+
+</html>

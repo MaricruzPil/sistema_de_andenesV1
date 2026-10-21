@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sistema de Carga - Trupper</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+
+<body>
+  <div class="login-bg">
+    <div class="login-card">
+      <div class="login-logo">
+        <i class="fas fa-warehouse"></i>
+      </div>
+      <div class="login-header">
+        <h1>Sistema de Carga</h1>
+        <p>Trupper - Control de Andenes</p>
+      </div>
+      <h2 class="login-title">Iniciar Sesión</h2>
+      <p class="login-subtitle">Ingrese sus credenciales para acceder al sistema</p>
+      <form id="loginForm">
+        <div class="input-group">
+          <label for="usuario"><i class="fas fa-user"></i></label>
+          <input type="text" id="usuario" placeholder="Usuario" required />
+        </div>
+        <div class="input-group">
+          <label for="contrasena"><i class="fas fa-lock"></i></label>
+          <input type="password" id="contrasena" placeholder="Contraseña" required />
+        </div>
+        <button type="submit" class="btn-ingresar">
+          <i class="fas fa-arrow-right"></i> Iniciar Sesión
+        </button>
+        <p id="loginError" class="error"></p>
+      </form>
+    </div>
+  </div>
+  <script src="{{ url_for('static', filename='js/login.js') }}"></script>
+</body>
+
+</html>

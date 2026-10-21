@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Administrador</title>
+
+  <!-- Fuentes e iconos -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Estilos personalizados -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+<body>
+  <div id="app" class="app" aria-live="polite">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" role="navigation" aria-label="Navegación principal">
+      <nav class="nav" role="menu" aria-label="Menú">
+        <button data-view="dashboard" class="active"><i class="fa-solid fa-chart-simple"></i> Andenes</button>
+        <button data-view="usuarios"><i class="fa-solid fa-users"></i> Usuarios</button>
+      </nav>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+      <!-- TOPBAR -->
+      <header class="topbar" role="banner">
+        <div>
+          <h2 id="page-title" style="margin:0">Panel</h2>
+          <div class="small-muted" id="page-sub">Vista General</div>
+        </div>
+        <div class="userinfo">
+          <div class="chip" id="user-role">Administrador</div>
+          <div style="display:flex;gap:10px;align-items:center">
+            <button id="logout" class="btn ghost"><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión</button>
+          </div>
+        </div>
+      </header>
+
+      <!-- CONTENT GRID -->
+      <section class="grid" role="main">
+        <!-- Left column: contenido principal -->
+        <div>
+          <!-- DASHBOARD -->
+          <div id="view-dashboard" class="card view">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+              <div>
+                <h3 style="margin:0">Estado de andenes</h3>
+                <div class="small-muted">Actualizado en tiempo real</div>
+              </div>
+            </div>
+            <div class="anden-list card" id="andenContainer" aria-live="polite">
+              <!-- Andenes dinámicos -->
+            </div>
+          </div>
+
+          <!-- USUARIOS -->
+          <div id="view-usuarios" class="card view" style="display:none;">
+            <h3>Gestión de usuarios</h3>
+            <div class="small-muted">Administra accesos y roles</div>
+            <div style="margin-top:12px;display:flex;gap:8px;align-items:center;">
+              <button id="nuevoUsuarioBtn" class="btn"><i class="fa-solid fa-user-plus"></i> Nuevo usuario</button>
+            </div>
+            <div style="margin-top:12px;">
+              <table aria-label="Lista de usuarios">
+                <thead>
+                  <tr>
+                    <th>Nombre</th>
+                    <th>Usuario</th>
+                    <th>Rol</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="usuariosTbody"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- MODAL AGREGAR USUARIO -->
+          <div id="modalUsuario" class="modal-backdrop">
+            <div class="modal">
+              <form id="formUsuario">
+                <div class="form-row">
+                  <div>
+                    <label>Nombre completo</label>
+                    <input type="text" name="nombre" required />
+                  </div>
+                  <div>
+                    <label>Usuario</label>
+                    <input type="text" name="usuario" required />
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div>
+                    <label>Rol</label>
+                    <select name="rol" required>
+                      <option value="">Selecciona rol</option>
+                      <option value="checador">Checador</option>
+                      <option value="gerente">Gerente</option>
+                      <option value="administrador">Administrador</option>
+                    </select>
+                  </div>
+                </div>
+                <div style="margin-top:12px;display:flex;justify-content:flex-end;gap:8px;">
+                  <button type="button" class="btn ghost" onclick="cerrarModalUsuario()">Cancelar</button>
+                  <button type="submit" class="btn">Guardar</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right column: resumen -->
+        <aside class="panel-resumen">
+          <div class="card">
+            <h4 style="margin:0">Resumen rápido</h4>
+            <div class="small-muted" style="margin-bottom:8px">Estado consolidado</div>
+            <div class="metricas">
+              <div class="card disponible">
+                <div>Andenes disponibles</div>
+                <div id="libresCount">0</div>
+              </div>
+              <div class="card ocupado">
+                <div>Andenes ocupados</div>
+                <div id="ocupadosCountSide">0</div>
+              </div>
+              <div class="card alerta">
+                <div>En alerta</div>
+                <div id="alertaCount">0</div>
+              </div>
+              <div class="card fuera_servicio">
+                <div>Fuera de servicio</div>
+                <div id="fueraServicioCount">0</div>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </section>
+    </main>
+  </div>
+
+  <!-- MODAL DINÁMICO -->
+  <div id="modalBackdrop" class="modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal" id="modalContent">
+      <!-- Contenido dinámico -->
+    </div>
+  </div>
+
+  <!-- Script personalizado -->
+  <script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+</body>
+</html>

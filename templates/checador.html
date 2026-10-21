@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Registro de Carga - Checador</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/checador.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+
+<body>
+    <header class="header">
+        <div class="header-left">
+            <h1><i class="fa-solid fa-warehouse"></i> Registro de Carga</h1>
+            <p>Sistema de control de andenes - Trupper</p>
+        </div>
+        <div class="header-right">
+            <input type="hidden" id="id-checador" value="{{ id_usuario }}">
+            <input type="hidden" id="nombre-checador" value="{{ nombre_usuario }}">
+            <span><i class="fa-solid fa-user"></i> {{ nombre_usuario }}</span>
+            <button class="btn-salir" id="btnLogout">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i> Cerrar sesión
+            </button>
+        </div>
+    </header>
+
+    <section class="barra-turno">
+        <i class="fa-solid fa-clock"></i>
+        <label for="turno">Turno Actual:</label>
+        <select id="turno"></select>
+    </section>
+
+    <section class="barra-andenes">
+        <i class="fa-solid fa-truck"></i>
+        <span>Seleccionar Andén</span>
+        <button id="contador-andenes" class="btn-disponibles">0 disponibles</button>
+    </section>
+
+    <section class="grid-andenes">
+        <h3>Iniciar nueva carga:</h3>
+        <div class="andenes-container"></div>
+    </section>
+
+    <section class="carga-en-progreso">
+        <!-- Aquí se insertan los botones con JS -->
+    </section>
+
+
+    <!-- Formulario de carga (oculto por defecto) -->
+    <!-- Modal flotante -->
+    <div id="modal-formulario" class="modal oculto">
+        <div class="modal-contenido">
+            <div class="modal-header">
+                <div class="modal-titulo">
+                    <span class="icono-check">✔</span>
+                    <h2>Iniciar Carga - Andén <span id="form-anden">XX</span></h2>
+                </div>
+                <span class="cerrar-modal">&times;</span>
+            </div>
+
+            <div class="modal-datos">
+                <div class="dato-box">
+                    <label>Andén</label>
+                    <div id="dato-anden" class="dato-valor">--</div>
+                </div>
+                <div class="dato-box">
+                    <label>Nave</label>
+                    <div id="dato-nave" class="dato-valor">--</div>
+                </div>
+            </div>
+
+            <div class="formulario-campos">
+                <label class="campo-label">
+                    <span class="icono">🚗</span> Tipo de Vehículo
+                </label>
+                <select id="form-vehiculo"></select>
+
+                <label class="campo-label">
+                    <span class="icono">👥</span> Cantidad de Personas Asignadas
+                </label>
+                <input type="number" id="form-personas" min="1">
+                <p id="form-sugerido" class="sugerencia"></p>
+
+                <label class="campo-label">Observaciones / Incidencias (opcional)</label>
+                <textarea id="form-observaciones" placeholder="Escriba cualquier observación importante..."></textarea>
+            </div>
+
+            <div class="modal-botones">
+                <button class="btn-cancelar">Cancelar</button>
+                <button class="btn-iniciar-carga">⟳ Iniciar Carga</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-finalizar" class="finalizar-modal oculto">
+        <div class="finalizar-contenido">
+            <div class="finalizar-header">
+                <div class="finalizar-titulo">
+                    <span class="finalizar-icono-x">✖</span>
+                    <h2>Finalizar Carga - Andén <span id="final-anden">2</span></h2>
+                </div>
+                <span class="finalizar-cerrar">&times;</span>
+            </div>
+            <div class="finalizar-datos">
+                <div class="finalizar-col">
+                    <label>Andén</label>
+                    <div id="final-dato-anden">2</div>
+                </div>
+                <div class="finalizar-col">
+                    <label>Nave</label>
+                    <div id="final-dato-nave">1</div>
+                </div>
+            </div>
+
+            <div class="finalizar-datos">
+                <div class="finalizar-col">
+                    <label>Vehículo</label>
+                    <div id="final-dato-vehiculo">Camioneta 1.5T</div>
+                </div>
+                <div class="finalizar-col">
+                    <label>Inicio</label>
+                    <div id="final-dato-hora">10:02 p.m.</div>
+                </div>
+            </div>
+
+            <div class="finalizar-datos">
+                <div class="finalizar-col">
+                    <label>Tiempo transcurrido</label>
+                    <div id="final-dato-tiempo" class="finalizar-tiempo-rojo">2h 28min</div>
+                </div>
+                <div class="finalizar-col">
+                    <label>Iniciado por</label>
+                    <div id="final-dato-checador">Tú</div>
+                </div>
+            </div>
+
+            <div id="btn-excedido" class="finalizar-alerta">
+                ⚠ Tiempo límite excedido
+            </div>
+
+            <div class="finalizar-observaciones">
+                <label for="final-observaciones">Observaciones Finales (opcional)</label>
+                <textarea id="final-observaciones"
+                    placeholder="Describa cualquier detalle relevante sobre la carga..."></textarea>
+            </div>
+
+            <div class="finalizar-incidente">
+                <label for="final-incidente">Causa del Incidente (si aplica)</label>
+                <textarea id="final-incidente"
+                    placeholder="Explique brevemente la causa del retraso o problema..."></textarea>
+            </div>
+
+            <div class="finalizar-botones">
+                <button class="finalizar-cancelar">Cancelar</button>
+                <button class="finalizar-confirmar">Finalizar Carga</button>
+            </div>
+        </div>
+    </div>
+
+
+
+    <footer class="footer-sistema">
+        <span class="estado-dot"></span>
+        <span>Sistema listo para registrar</span>
+    </footer>
+
+
+
+    <script src="{{ url_for('static', filename='js/checador.js') }}"></script>
+</body>
+
+</html>

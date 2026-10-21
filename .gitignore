@@ -1,0 +1,14 @@
+.env
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+
+# Respaldos y archivos locales de bases de datos
+*.sql
+*.sql.gz
+
+# Logs y archivos generados
+*.log
+.pytest_cache/
+.mypy_cache/
